@@ -23,7 +23,7 @@ enumeration value with Write or WriteLine will display the name of the enumerati
 
 Console.WriteLine("What would be your order today?");
 
-
+//converting enum values to the tuple
 var dishNameTuple = new Tuple<string, string, string>(
    nameof(DishName.soup),
    nameof(DishName.stew),
@@ -51,23 +51,33 @@ var dishSeasoningTypeTuple = new Tuple<string, string, string>(
 
 
 Console.WriteLine($"We are offering {dishNameTuple} with the following main ingredients {dishMainIngredientTuple} and with the following seasonings {dishSeasoningTypeTuple}.");
-Console.WriteLine("Make your choice please.");
+Console.WriteLine("Make your choice please in the format of <spicy>, <mushroom>, <soup>");
 
+// in the code below we are assigning a string value to a user's string input 
+// and then are creating a new array called userInputParts while splitting user's input in a few strings.
 
 string userInput = Console.ReadLine();
 string [] userInputParts = userInput.Split(' ');
 
+//here we are checking whether userInputParts has 3 elements and then are comparing those elements
+//with those stored in the corresponding enums. 
 
 if (userInputParts.Length == 3 &&
-   Enum.TryParse<DishSeasoningType>(userInputParts[0], true, out var seasoning) &&         //how does this TryParse exactly work?
-   Enum.TryParse<DishMainIngredient>(userInputParts[1], true, out var ingredient) &&
+   Enum.TryParse<DishSeasoningType>(userInputParts[0], true, out var seasoning) &&      //checks the first element in the array userInputParts[] VS   
+   Enum.TryParse<DishMainIngredient>(userInputParts[1], true, out var ingredient) &&      //enum userInputParts. Return, if true and the code continues
    Enum.TryParse<DishName>(userInputParts[2], true, out var dish))
 
 
 {
-   var
+   var orderedDishTuple = (seasoning, ingredient, dish);                //for example, the result in this variable looks something like this:
+   Console.WriteLine($"Please check your order {orderedDishTuple} ");   //seasoning = DishSeasoningType.spicy
+                                                                        //ingredient = DishMainIngredient.mushroom
+                                                                        //dish = DishName.soup
 }
-
+else 
+{
+   Console.WriteLine("We are sorry, we are missing that from the menu.");
+}
 
 
 
